@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
+	middleware "github.com/rhiadc/gobank/cmd/api/middlewares"
 	"github.com/rhiadc/gobank/config"
 	db "github.com/rhiadc/gobank/db/sqlc"
 	token "github.com/rhiadc/gobank/internal/token"
@@ -42,11 +43,16 @@ func NewServer(config *config.Environments, store db.StoreInterface) (*Server, e
 
 func (server *Server) setupRouter() {
 	r := gin.Default()
-	r.POST("/accounts", server.createAccount)
-	r.GET("/accounts/:id", server.getAccount)
-	r.GET("/accounts", server.listAccount)
-	r.POST("/transfers", server.createTransfer)
+
+	authRoutes := r.Group("/").Use(middleware.AuthMiddleware(server.token))
+
+	authRoutes.POST("/accounts", server.createAccount)
+	authRoutes.GET("/accounts/:id", server.getAccount)
+	authRoutes.GET("/accounts", server.listAccount)
+	authRoutes.POST("/transfers", server.createTransfer)
+
 	r.POST("/users/login", server.loginUser)
+	r.POST("/users", server.createUser)
 	server.router = r
 }
 

@@ -5,14 +5,14 @@ import (
 	"time"
 
 	"github.com/rhiadc/gobank/config"
-	db "github.com/rhiadc/gobank/db/sqlc"
+	mockdb "github.com/rhiadc/gobank/db/mock"
 	"github.com/stretchr/testify/require"
 )
 
-func newTestServer(t *testing.T, *mockdb.MockStoreInterface) *Server {
+func NewTestServer(t *testing.T, store *mockdb.MockStoreInterface) *Server {
 	config := config.Environments{
 		Token: config.Token{
-			TokenSymmetricKey:   "aesdreftgydpolikjhyuipokiujhynde",
+			TokenSynmmetricKey:  "aesdreftgydpolikjhyuipokiujhynde",
 			AccessTokenDuration: time.Minute,
 		},
 	}
