@@ -1,0 +1,7 @@
+migrate create -ext sql -dir db/migration -seq init_schema
+
+sqlc init 
+    create sqlc.yaml file
+    
+docker run --rm -v "%cd%:/src" -w /src kjconroy/sqlc generate #windows
+sqlc generate #linux
