@@ -6,6 +6,11 @@ import (
 	"fmt"
 )
 
+type StoreInterface interface {
+	Querier
+	TransferTX(ctx context.Context, arg TransferTxParams) (TransferTxResult, error)
+}
+
 type Store struct {
 	*Queries
 	db *sql.DB

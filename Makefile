@@ -20,5 +20,7 @@ sqlc:
 test:
 	go test ./...
 
+mock:
+	mockgen -package mockdb -destination db/mock/store.go github.com/rhiadc/gobank/db/sqlc StoreInterface
 
 .PHONY: createdb dropdb postgres migrateup migratedown sqlc test
