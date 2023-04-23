@@ -11,6 +11,7 @@ type Environments struct {
 	AppName  string
 	Env      string
 	Database Database
+	Token    Token
 }
 
 const (
@@ -32,6 +33,8 @@ func LoadEnvVars() *Environments {
 	viper.SetDefault("DB_PORT", defaultDBPort)
 	viper.SetDefault("DB_SSL_MODE", defaultDBSSLMode)
 	viper.SetDefault("DB_DRIVER", defaultDBDriver)
+	viper.SetDefault("TOKEN_SYMMETRIC_KEY", defaultTokenSymmetricKey)
+	viper.SetDefault("ACCESS_TOKEN_DURATION", defaultAccessTokenDuration)
 
 	if err := viper.ReadInConfig(); err != nil {
 		log.Printf("unable to find or read config file %w", err)
@@ -49,6 +52,10 @@ func LoadEnvVars() *Environments {
 			Port:     viper.GetString("DB_PORT"),
 			SSLMode:  viper.GetString("DB_SSL_MODE"),
 			Driver:   viper.GetString("DB_DRIVER"),
+		},
+		Token: Token{
+			TokenSynmmetricKey:  viper.GetString("TOKEN_SYMMETRIC_KEY"),
+			AccessTokenDuration: viper.GetDuration("ACCESS_TOKEN_DURATION"),
 		},
 	}
 

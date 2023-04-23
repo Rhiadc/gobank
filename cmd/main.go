@@ -19,7 +19,10 @@ func main() {
 	}
 	serverAddr := fmt.Sprintf("localhost:%s", env.APIPort)
 	store := db.NewStore(conn)
-	server := api.NewServer(store)
+	server, err := api.NewServer(env, store)
+	if err != nil {
+		log.Fatal("Error creating server")
+	}
 	if err := server.Start(serverAddr); err != nil {
 		log.Fatal("Error starting API server:", err)
 	}

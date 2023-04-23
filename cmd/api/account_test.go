@@ -87,7 +87,7 @@ func TestGetAccountAPI(t *testing.T) {
 			ctrl := gomock.NewController(t)
 			store := mockdb.NewMockStoreInterface(ctrl)
 
-			server := NewServer(store)
+			server := newTestServer(t, store)
 			recorder := httptest.NewRecorder()
 			url := fmt.Sprintf("/account/%d", tc.accountID)
 			request, err := http.NewRequest(http.MethodGet, url, nil)
